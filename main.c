@@ -14,8 +14,8 @@ int main() {
     int logCtrl;
 
     do {
-        printf("\n\n_______________ANA SAYFA_____________\n\n");
         loginAgain:
+        printf("\n\n_______________ANA SAYFA_____________\n\n");
         printf("\t1. Uye ol\n\t2. Giris yap\n\t3. Programdan cik\n\n");
         printf("_____________________________________\n\n");
 
@@ -49,6 +49,14 @@ int main() {
                                 break;
                             case 4:
                                 variable = 0;
+
+                                FILE *dosya = fopen("kullanici_islemleri.txt","a");
+                                if (dosya == NULL) {
+                                    printf("Dosya acilamadi.\n");
+                                }
+                                fprintf(dosya, "%d ID numarali %s %s sayfasindan cikis yapti.\n\n", users[0].userId, users[0].name, users[0].surname);
+                                fclose(dosya);
+
                                 break;
                             default:
                                 printf("Gecersiz secim yaptiniz. Lutfen tekrar deneyiniz.\n");
@@ -56,12 +64,14 @@ int main() {
                     } while (choice != 4);
                 }
                 else {
-                    printf("Gecersiz kullanici ID ya da sifre\n\n");
+                    printf("Gecersiz kullanici ID ya da sifre. Lutfen tekrar deneyiniz\n\n");
                     goto loginAgain;
                 }
                 break;
             case 3:
                 printf("Programdan cikiliyor\n");
+
+
                 variable = 1;
                 break;
             default:
