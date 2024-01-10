@@ -3,31 +3,33 @@
 
 #define MAX_USERS 50
 
+
 // Kullanici bilgisini temsil etmek icin bir yapi
 typedef struct {
-    int userId  ;
-    char name[50];
-    char surname[50];
+    short sira;
+    int userId;
+    char name[20];
+    char surname[20];
     int walletAmount;
-    char password[50];
-}Kullanici;
+    char password[20];
+} Kullanici;
 
-//Ucus tarihini temsil etmek icin bir yapi
+// Ucus tarihini temsil etmek icin bir yapi
 typedef struct {
     int gun;
     int ay;
     int yil;
-}date; // tanimlamalarda kolaylik saglamak icin burada ve ileride structure'lara yeni isimler verildi
+} date; // Tanimlamalarda kolaylik saglamak icin burada ve ileride structure'lara yeni isimler verildi
 
-//Ucus bilgilerini temsil etmek icin bir structure
+// Ucus bilgilerini temsil etmek icin bir yapi
 typedef struct {
     int ucusId;
-    char nereden[25];
-    char nereye[25];
+    char nereden[15];
+    char nereye[15];
     short bosYer;
     int ucret; // Added ucret member/
     date tarih;
-}Ucus;
+} Ucus;
 
 Ucus ucuslar[10] = {{500, "Istanbul\0", "Ankara\0", 7, 3530, {24, 01, 2024}},
                     {501, "Istanbul\0", "Izmir\0", 12, 2870, {12, 01, 2024}},
@@ -42,15 +44,31 @@ Ucus ucuslar[10] = {{500, "Istanbul\0", "Ankara\0", 7, 3530, {24, 01, 2024}},
 
 
 //Ucus degiskenleri
-Ucus flights[10];
-int flightCount = 0;
-int nextFlightId = 0x154AB77; // Ucus ID no'larini olusturmak icin bir degisken
 int rez[10];
 
 //Kullanici degiskenleri
 Kullanici users[MAX_USERS]; // Kullanici bilgilerini saklamak icin bir dizi
 int userCount = 0; // Kayitli kullanicilarin sayisini tutmak icin bir degisken
-int nextUserId = 20230001; // Kullanicilarin sisteme kolayca girebilmeleri icin ID numarasi icin bir degisken
+int nextUserId = 202401; // Kullanicilarin sisteme kolayca girebilmeleri icin ID numarasi icin bir degisken
+
+void ucuslariYaz() {
+    printf("\nUcus numarasi:\tNereden:\tNereye:\t\tBos yer sayisi:\t\tUcreti:\t\tTarihi:\n");
+    printf("______________________________\n");
+    for (int i = 0; i < 6; ++i) {
+        printf("%d\t\t%s\t%s\t\t%hd\t\t\t%d\t\t%d.%d.%d\n", ucuslar[i].ucusId, ucuslar[i].nereden, ucuslar[i].nereye, ucuslar[i].bosYer, ucuslar[i].ucret, ucuslar[i].tarih.gun, ucuslar[i].tarih.ay, ucuslar[i].tarih.yil);
+    }
+    for (int i = 6; i < 10; ++i) {
+        if (i != 6) {
+            printf("%d\t\t%s\t\t%s\t\t%hd\t\t\t%d\t\t%d.%d.%d\n", ucuslar[i].ucusId, ucuslar[i].nereden, ucuslar[i].nereye,
+                   ucuslar[i].bosYer, ucuslar[i].ucret,  ucuslar[i].tarih.gun, ucuslar[i].tarih.ay,
+                   ucuslar[i].tarih.yil);
+        } else {
+            printf("%d\t\t%s\t\t%s\t%hd\t\t\t%d\t\t%d.%d.%d\n", ucuslar[i].ucusId, ucuslar[i].nereden, ucuslar[i].nereye,ucuslar[i].bosYer, ucuslar[i].ucret, ucuslar[i].tarih.gun, ucuslar[i].tarih.ay,
+                   ucuslar[i].tarih.yil);
+        }
+    }
+    printf("______________________________\n");
+}
 
 
 #endif //PROJEODEV_STR_VRB_H
