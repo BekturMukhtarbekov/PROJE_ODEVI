@@ -6,25 +6,12 @@
 #define PROJEODEV_REZERVASYON_YAPMA_H
 
 void rezYap () {
+
     int secim;
     char onay;
+
     biletal:
-    printf("\nUcus numarasi:\tNereden:\tNereye:\t\tBos yer sayisi:\t\tUcreti:\t\tTarihi:\n");
-    printf("______________________________\n");
-    for (int i = 0; i < 6; ++i) {
-        printf("%d\t\t%s\t%s\t\t%hd\t\t\t%d\t\t%d.%d.%d\n", ucuslar[i].ucusId, ucuslar[i].nereden, ucuslar[i].nereye, ucuslar[i].bosYer, ucuslar[i].ucret, ucuslar[i].tarih.gun, ucuslar[i].tarih.ay, ucuslar[i].tarih.yil);
-    }
-    for (int i = 6; i < 10; ++i) {
-        if (i != 6) {
-            printf("%d\t\t%s\t\t%s\t\t%hd\t\t\t%d\t\t%d.%d.%d\n", ucuslar[i].ucusId, ucuslar[i].nereden, ucuslar[i].nereye,
-                   ucuslar[i].bosYer, ucuslar[i].ucret, ucuslar[i].tarih.gun, ucuslar[i].tarih.ay,
-                   ucuslar[i].tarih.yil);
-        } else {
-            printf("%d\t\t%s\t\t%s\t%hd\t\t\t%d\t\t%d.%d.%d\n", ucuslar[i].ucusId, ucuslar[i].nereden, ucuslar[i].nereye,ucuslar[i].bosYer, ucuslar[i].ucret, ucuslar[i].tarih.gun, ucuslar[i].tarih.ay,
-                   ucuslar[i].tarih.yil);
-        }
-    }
-    printf("______________________________\n");
+    ucuslariYaz();
 
     printf("\nAlmak istediginiz ucus numarasini seciniz:\n");
     scanf("%d", &secim);
@@ -39,11 +26,20 @@ void rezYap () {
                 switch (onay) {
                     case 'E':
                         if (users[0].walletAmount >= ucuslar[j].ucret){
-                            printf("\n%d.%d.%d tarihinde %d numarali ucus biletini almis oldunuz. Bizi tercih ettiginiz icin tesekkur ederiz.\n\n", ucuslar[j].tarih.gun, ucuslar[j].tarih.ay, ucuslar[j].tarih.yil, ucuslar[j].ucusId);
+                            printf("\n%d.%d.%d tarihinde %d numarali ucus biletini almis oldunuz. Bizi tercih ettiginiz icin tesekkur ederiz.\n\n",
+                                   ucuslar[j].tarih.gun, ucuslar[j].tarih.ay, ucuslar[j].tarih.yil, ucuslar[j].ucusId);
                             ucuslar[j].bosYer--;
                             rez[j] = ucuslar[j].ucusId;
                             users[0].walletAmount -= ucuslar[j].ucret;
                             printf("Kalan bakiyeniz = %d\n\n", users[0].walletAmount);
+
+                            FILE *dosya = fopen("kullanici_islemleri.txt","a");
+                            if (dosya == NULL) {
+                                printf("Dosya acilamadi.\n");
+                            }
+                            fprintf(dosya, "%d ID numarali %s %s tarafindan %d no'lu ucus alindi.\n\n", users[0].userId, users[0].name, users[0].surname, ucuslar[j].ucusId);
+                            fclose(dosya);
+
                         } else
                             printf("\nBakiyeniz yetersizdir.\nBaska hesabinizi deneyiniz.\n");
                         break;
